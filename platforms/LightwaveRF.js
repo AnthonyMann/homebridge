@@ -1,5 +1,4 @@
 // LightwaveRF Platform
-//
 var types = require('../lib/HAP-NodeJS/accessories/types.js');
 var request = require('request');
 var plist = require('plist');
@@ -87,22 +86,18 @@ function LightwaveRfAccessory(log, config) {
 	// device info
 	this.name = config.name;
 	this.config = config;
-  this.log = log;
-  this.hub = config.hubIp;
+	this.log = log;
+	this.hub = config.hubIp;
 }
 
 function createSwitchCommandString(roomId, deviceId, turnOn, topLine, bottomLine){
-	var msg = commandCounter + ',' + '!R' + roomId + 'D' +
+	return commandCounter + ',' + '!R' + roomId + 'D' +
 		deviceId + (turnOn ? 'F1' : 'F0') + '|' + topLine + '|' + bottomLine;
-
-	return msg;
 }
 
 function createDimmerCommandString(roomId, deviceId, brightness, topLine, bottomLine){
-	var msg = commandCounter + ',' + '!R' + roomId + 'D' +
+	return commandCounter + ',' + '!R' + roomId + 'D' +
 		deviceId + 'FdP' + (brightness * 0.32).toFixed(0) + '|' + topLine + '|' + bottomLine;
-
-	return msg;
 }
 
 LightwaveRfAccessory.prototype = {
@@ -111,14 +106,14 @@ LightwaveRfAccessory.prototype = {
 		var message;
 
 		if (powerOn) {
-			this.log('Attempting to turn on ' + this.config.name);
+			this.log('Turning on ' + this.config.name);
 
 			message = new Buffer(
 				createSwitchCommandString(this.config.roomId, this.config.deviceId, true, this.config.name, 'On')
 			);
 
 		} else {
-			this.log('Attempting to turn off ' + this.config.name);
+			this.log('Turning off ' + this.config.name);
 
 			message = new Buffer(
 				createSwitchCommandString(this.config.roomId, this.config.deviceId, false, this.config.name, 'Off')
@@ -135,7 +130,7 @@ LightwaveRfAccessory.prototype = {
 
 	setBrightness: function(level) {
 
-		this.log('Attempting to set brightness of ' + this.config.name + ' to ' + level);
+		this.log('Setting brightness of ' + this.config.name + ' to ' + level);
 
 		var message = new Buffer(
 			createDimmerCommandString(this.config.roomId, this.config.deviceId, level, this.config.name, level)
