@@ -21,6 +21,13 @@
             "name": "Domoticz",
             "server": "127.0.0.1",
             "port": "8005"
+        },
+        {
+            "platform": "lightwaverf",
+            "name": "LightwaveRF",
+            "email": "joe.blogs@email.com",
+            "pin": "0000",
+            "hub": "10.0.1.6"
         }
     ],
 
